@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -36,31 +36,21 @@
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.catalog-image img{transform:none!important}}
   .resume-page{position:relative;width:100%;max-width:900px;margin:0 auto;background:#fff}.resume-page .resume-image{max-width:none;margin:0;height:auto}
   </style>
+  <link rel="stylesheet" href="assets/gallery.css?v=2">
+  <script src="assets/gallery.js?v=2" defer></script>
 </head>
 <body>
   <a class="skip" href="#works">跳到全部作品</a>
-  <main class="hero" id="home" aria-label="你的名字的视觉设计作品集"></main>
-  <template id="hero-template">
-    <section class="layer">
-      <div class="bg" aria-hidden="true"></div>
-      <header class="top">
-        <a class="brand" href="#home" aria-label="你的名字，首页"><span class="brand-mark" aria-hidden="true">g.</span><span class="brand-name">你的名字<small>YOUR NAME</small></span></a>
-        <nav class="nav" aria-label="主导航"><a href="#works">作品<small>Index</small></a><a href="#about">关于<small>About</small></a><button class="theme-toggle" type="button" aria-pressed="false" aria-label="切换到深色模式"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.7" stroke="currentColor" stroke-width="1.2"/><path d="M8 1.3a6.7 6.7 0 0 1 0 13.4Z" fill="currentColor"/></svg></button></nav>
-      </header>
-      <div class="intro">
-        <p class="eyebrow">INDEPENDENT VISUAL DESIGNER · 2026</p>
-        <h1 class="title" aria-label="Visual Alchemist，视觉炼金术"><span class="line" data-line="VISUAL"><span class="title-star" aria-hidden="true">✳</span></span><span class="line" data-line="ALCHEMIST"></span></h1>
-        <p class="lede"><strong>让想象，成为看得见的价值。</strong><span class="lede-description">在商业与创意之间，寻找恰到好处的视觉表达。<br></span><span>电商视觉 / 三维渲染 / AIGC 创作</span></p>
-        <a class="intro-link" href="#works">探索全部作品 <small>19 PROJECTS</small><span class="arrow" aria-hidden="true">↗</span></a>
-      </div>
-      <div class="reel" role="region" aria-label="精选作品滚轮，可拖动或使用上下方向键浏览"></div>
-      <div class="fog" aria-hidden="true"></div>
-      <aside class="index" aria-label="精选作品索引"><p class="index-label">SELECTED WORKS / 01—05</p><ol class="project-list"></ol><a class="index-chip" href="work/air/index.html" aria-label="查看 GOOLOO 空气除尘器项目"><span class="chip-counter">01 / 05</span><span class="arrow" aria-hidden="true">↗</span></a></aside>
-      <p class="hero-side-note"><span class="status-dot"></span>DESIGNED WITH INTENTION.</p>
-      <p class="reel-caption"><span aria-hidden="true">↕</span> SCROLL OR DRAG TO EXPLORE</p>
-      <footer class="foot"><div><span class="foot-label">LET’S CREATE SOMETHING.</span><a href="mailto:hello@example.com">hello@example.com ↗</a></div><div class="foot-center"><span class="foot-label">FOCUS</span><span>电商视觉 · 3D · AIGC</span></div><p class="copyright">© 2026 YOUR NAME<span>IMAGINATION, MADE VISIBLE.</span></p></footer>
-    </section>
-  </template>
+  <main class="gallery" id="home" aria-label="你的名字的视觉设计作品集">
+  <div class="gallery-atmosphere" aria-hidden="true"></div><div class="gallery-orbit" aria-hidden="true"></div>
+  <header class="gallery-top"><a class="gallery-brand" href="#home"><b aria-hidden="true">g.</b><span>你的名字<small>INDEPENDENT VISUAL DESIGNER</small></span></a><nav class="gallery-nav" aria-label="主导航"><a href="#works">作品<small>WORK</small></a><a href="#about">关于<small>ABOUT</small></a><a class="gallery-contact" href="#contact">联系<small>CONTACT</small></a><a class="gallery-classic" href="classic.html#home">原版 ↗</a><button class="gallery-theme" type="button" aria-label="切换主题" aria-pressed="true">◐</button></nav></header>
+  <div class="gallery-heading gallery-enter"><p class="gallery-kicker">SELECTED VISUAL EXPERIENCES / 2026</p><h1 class="gallery-title">BEYOND<span class="outline">THE FRAME<em>✳</em></span></h1></div>
+  <div class="gallery-statement gallery-enter"><strong>让想象，越过画面的边界。</strong><span>ECOMMERCE VISUAL / 3D / AIGC<br>在商业与创意之间，探索视觉的更多可能。</span><br><a href="#works">探索全部作品 <span>19 PROJECTS ↗</span></a></div>
+  <div class="gallery-watermark" aria-hidden="true">01</div><p class="gallery-rail-label" aria-hidden="true">A COLLECTION OF POSSIBILITIES</p><p class="gallery-position" aria-hidden="true"><b class="gallery-current">01</b><span>—</span><span>05</span></p>
+  <section class="gallery-stage" aria-label="精选作品轮播，可拖动、滚轮或使用方向键浏览" aria-roledescription="轮播"></section>
+  <div class="gallery-bottom"><div class="gallery-meta" aria-live="polite" aria-atomic="true"><p class="gallery-category">SELECTED 01 / 亚马逊视觉</p><a class="gallery-project-title" href="work/air/index.html">GOOLOO 空气除尘器</a><p class="gallery-project-subtitle">Amazon Visual System</p></div><div><div class="gallery-controls"><ol class="gallery-thumbs" aria-label="选择精选作品"></ol><div class="gallery-arrows"><button class="gallery-arrow gallery-prev" type="button" aria-label="上一件作品">←</button><button class="gallery-arrow gallery-next" type="button" aria-label="下一件作品">→</button></div></div><p class="gallery-instruction">SCROLL / DRAG / ARROW KEYS TO EXPLORE</p></div></div>
+  <footer class="gallery-footer"><p><span>LET’S CREATE SOMETHING.</span><a href="mailto:hello@example.com">hello@example.com ↗</a></p><p>电商视觉 · 三维渲染 · AIGC 创作</p><p>© 2026 YOUR NAME<br><span>IMAGINATION, MADE VISIBLE.</span></p></footer>
+</main>
   <dialog class="panel works-panel" id="works-panel" aria-labelledby="works-title">
     <header class="panel-header"><a class="panel-brand" href="#home"><b>你的名字</b>YOUR NAME / SELECTED WORK</a><button class="close-button" type="button" data-close aria-label="关闭作品目录">返回首页 <span aria-hidden="true">×</span></button></header>
     <div class="panel-body"><div class="panel-intro"><div><p class="section-label">01 / THE SELECTED ARCHIVE</p><h2 class="panel-title" id="works-title">Ideas, made<br><em>visible.</em></h2></div><p>19 组设计作品，3 部 AI 广告影像。<br>从产品细节，到完整的视觉体验。</p></div><div class="filters" role="group" aria-label="按作品类型筛选"></div><p class="catalog-count" role="status" aria-live="polite"></p><div class="catalog"></div><div class="panel-footer"><span>© 2026 YOUR NAME / ALL SELECTED WORKS</span><a href="#about">了解作品背后的我 ↗</a></div></div>
@@ -82,83 +72,9 @@
   (()=>{
     'use strict';
     const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-    const data=JSON.parse($('#portfolio-data').textContent),hero=$('.hero'),template=$('#hero-template');
+    const data=JSON.parse($('#portfolio-data').textContent);
     const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-    const featuredIds=new Set(['air','ai-model','kv-domestic','charger','packaging-a']);
-    const selected=data.projects.filter(p=>featuredIds.has(p.id));
     const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const mod=(v,n)=>((v%n)+n)%n,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),mix=(a,b,t)=>a+(b-a)*t;
-    let theme='light';try{theme=localStorage.getItem('portfolio-theme')==='dark'?'dark':'light'}catch{}
-    let curve=theme==='dark'?1:0,active=0,offset=0,target=0,itemH=0,step=0,total=0,H=0,W=0,reelH=0,reelW=0,count=0,velocity=0,last=performance.now(),snapTimer=0,drag=null,dragBlockUntil=0,wipe=null,trail=[],lastPointer=null,raf=0;
-    const layers={};let index=0;
-    for(const mode of ['light','dark']){
-      const layer=template.content.firstElementChild.cloneNode(true);layer.dataset.theme=mode;
-      let i=0;$$('[data-line]',layer).forEach(line=>{const star=$('.title-star',line);for(const letter of line.dataset.line){const span=document.createElement('span');span.className='ch';span.dataset.i=i;span.style.setProperty('--i',i++);span.textContent=letter;span.setAttribute('aria-hidden','true');line.insertBefore(span,star)}});
-      $('.project-list',layer).innerHTML=selected.map((p,i)=>`<li><button class="project-button${i===0?' is-active':''}" type="button" data-select="${i}" aria-pressed="${i===0}">${escape(p.title)}</button></li>`).join('');
-      hero.append(layer);layers[mode]=layer;
-    }
-    function setBase(){for(const [mode,layer] of Object.entries(layers)){const base=mode===theme;layer.classList.toggle('is-base',base);layer.classList.toggle('is-overlay',!base);layer.inert=!base;if(base)layer.removeAttribute('aria-hidden');else layer.setAttribute('aria-hidden','true');layer.style.clipPath=base?'none':"path('M0 0Z')";const b=$('.theme-toggle',layer);b.setAttribute('aria-pressed',String(theme==='dark'));b.setAttribute('aria-label',theme==='dark'?'切换到浅色模式':'切换到深色模式')}document.documentElement.dataset.theme=theme;$('meta[name=theme-color]').content=theme==='dark'?'#1a0e3f':'#f6f5f9';document.body.style.background=theme==='dark'?'#1a0e3f':'#f6f5f9'}
-    setBase();
-    function layout(){
-      const oldStep=step,progress=oldStep?target/oldStep:0;H=hero.clientHeight;W=hero.clientWidth;reelH=$('.reel',layers.light).clientHeight;reelW=$('.reel',layers.light).clientWidth;itemH=reelW/1.5;step=itemH+Math.max(14,itemH*.12);count=5*Math.ceil((reelH+step*3)/(step*5));total=count*step;
-      for(const layer of Object.values(layers)){
-        const reel=$('.reel',layer);reel.innerHTML=Array.from({length:count},(_,k)=>{const i=k%5,p=selected[i];return `<a class="reel-card" data-project="${i}" href="work/${p.id}/index.html" tabindex="-1"${k>=5?' aria-hidden="true"':''}><figure><img src="${p.coverThumb.replace(/^\//,'')}" alt="${k<5?escape(p.title+'作品封面'):''}" width="900" height="600" draggable="false"${i===0?' fetchpriority="high"':' decoding="async"'}><figcaption class="card-caption"><span>${escape(p.subtitle)}</span><span>VIEW PROJECT ↗</span></figcaption></figure></a>`}).join('');
-      }
-      const base0=reelH/2-itemH/2+1.5*step;offset=target=oldStep?base0+Math.round((progress*step-base0)/step)*step:base0;
-      smoke?.resize();
-    }
-    function snap(){const base0=reelH/2-itemH/2+1.5*step;target=base0+Math.round((target-base0)/step)*step}
-    function go(i){let delta=Infinity;for(let k=i;k<count;k+=5){const y=mod(k*step+offset,total)-1.5*step,d=reelH/2-itemH/2-y;if(Math.abs(d)<Math.abs(delta))delta=d}target=offset+delta;clearTimeout(snapTimer);snap()}
-    function showActive(i){if(i===active&&$('.index-chip').dataset.ready)return;active=i;for(const layer of Object.values(layers)){$$('.project-button',layer).forEach((b,n)=>{b.classList.toggle('is-active',i===n);b.setAttribute('aria-pressed',String(i===n))});const a=$('.index-chip',layer);a.href='work/'+selected[i].id+'/index.html';a.setAttribute('aria-label','查看'+selected[i].title+'项目');a.dataset.ready='true';$('.chip-counter',layer).textContent=String(i+1).padStart(2,'0')+' / 05'}}
-    hero.addEventListener('wheel',e=>{if(document.querySelector('dialog[open]'))return;e.preventDefault();const dy=clamp(e.deltaY*(e.deltaMode===1?18:1),-160,160);target-=dy*(theme==='dark'?.6:1);clearTimeout(snapTimer);snapTimer=setTimeout(snap,140)},{passive:false});
-    for(const layer of Object.values(layers)){
-      $$('[data-select]',layer).forEach(b=>{b.addEventListener('click',()=>go(+b.dataset.select));b.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')go(+b.dataset.select)})});
-      const reel=$('.reel',layer);
-      reel.addEventListener('pointerdown',e=>{if(e.button!==0)return;clearTimeout(snapTimer);drag={id:e.pointerId,link:e.target.closest('.reel-card')?.href,start:e.clientY,y:e.clientY,time:performance.now(),v:0,moved:false};reel.setPointerCapture(e.pointerId);reel.classList.add('is-dragging')});
-      reel.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;const now=performance.now(),dy=e.clientY-drag.y;drag.moved||=Math.abs(e.clientY-drag.start)>6;drag.v=mix(drag.v,dy/Math.max(now-drag.time,8)*16,.5);target+=dy*(theme==='dark'?1.1:1.4);drag.y=e.clientY;drag.time=now});
-      function end(e){if(!drag||drag.id!==e.pointerId)return;if(drag.moved){dragBlockUntil=performance.now()+250;target+=drag.v*(theme==='dark'?9:14)}const link=drag.moved?null:drag.link;drag=null;reel.classList.remove('is-dragging');snap();if(link&&e.type==='pointerup')location.href=link}
-      reel.addEventListener('pointerup',end);reel.addEventListener('pointercancel',end);reel.addEventListener('click',e=>{if(performance.now()<dragBlockUntil)e.preventDefault()});
-      $('.theme-toggle',layer).addEventListener('click',e=>toggleTheme(e.currentTarget));
-      $$('.ch',layer).forEach(ch=>ch.addEventListener('pointerenter',()=>{if(theme!=='dark'||reduced.matches||wipe)return;for(const other of Object.values(layers)){const hit=$(`[data-i="${ch.dataset.i}"]`,other);hit.classList.remove('hit');void hit.offsetWidth;hit.classList.add('hit');setTimeout(()=>hit.classList.remove('hit'),720)}}));
-    }
-    document.addEventListener('keydown',e=>{if(document.querySelector('dialog[open]')||e.altKey||e.ctrlKey||e.metaKey)return;if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();target+=(e.key==='ArrowDown'?-1:1)*step;snap()}});
-    function toggleTheme(button){if(wipe)return;const rect=button.getBoundingClientRect(),x=rect.x+rect.width/2,y=rect.y+rect.height/2;wipe={start:performance.now(),x,y,r:1.25*Math.max(Math.hypot(x,y),Math.hypot(W-x,y),Math.hypot(x,H-y),Math.hypot(W-x,H-y)),from:curve,to:theme==='light'?1:0,duration:reduced.matches?350:1250};trail=[];snap();if(!reduced.matches)Object.values(layers).forEach(l=>{$('.title',l).classList.remove('glitch');void l.offsetWidth;$('.title',l).classList.add('glitch')})}
-    hero.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||drag||document.querySelector('dialog[open]'))return;const now=performance.now();smoke?.pointer(e.clientX/W,1-e.clientY/H);if(theme!=='light'||wipe||reduced.matches){lastPointer={x:e.clientX,y:e.clientY,time:now};return}const prev=lastPointer||{x:e.clientX,y:e.clientY,time:now-16},dx=e.clientX-prev.x,dy=e.clientY-prev.y,d=Math.hypot(dx,dy),speed=d/Math.max(now-prev.time,1),n=Math.min(Math.ceil(d/5),45),r=clamp(20+speed*24,20,60);for(let k=1;k<=Math.max(1,n);k++)trail.push({x:prev.x+dx*k/Math.max(1,n),y:prev.y+dy*k/Math.max(1,n),time:now,r,seed:Math.random()*6.28});if(trail.length>300)trail.splice(0,trail.length-300);lastPointer={x:e.clientX,y:e.clientY,time:now}});
-    hero.addEventListener('pointerleave',()=>{lastPointer=null});
-    const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
-    function render(now){
-      const dt=Math.min((now-last)/16.667,3);last=now;const previous=offset;offset=mix(offset,target,1-Math.pow(1-(theme==='dark'?.06:.085),dt));velocity=mix(velocity,(offset-previous)/Math.max(dt,.1),.2);if(Math.abs(offset-target)<.02)offset=target;
-      let overlay=layers[theme==='light'?'dark':'light'];
-      if(wipe){const p=clamp((now-wipe.start)/wipe.duration,0,1),t=ease(p);curve=mix(wipe.from,wipe.to,t);const radius=wipe.r*t;let path='';for(let i=0;i<=96;i++){const a=i/96*Math.PI*2,r=radius*(reduced.matches?1:1+.07*Math.sin(3*a+2.2*p)+.045*Math.sin(7*a-3.1*p)+.03*Math.sin(13*a+4*p));path+=(i?'L':'M')+(wipe.x+Math.cos(a)*r).toFixed(1)+' '+(wipe.y+Math.sin(a)*r).toFixed(1)}overlay.style.clipPath=`path('${path}Z')`;if(p===1){theme=theme==='light'?'dark':'light';curve=theme==='dark'?1:0;wipe=null;trail=[];setBase();try{localStorage.setItem('portfolio-theme',theme)}catch{}Object.values(layers).forEach(l=>$('.title',l).classList.remove('glitch'));$('.theme-toggle',layers[theme]).focus({preventScroll:true})}}
-      else if(theme==='light'&&trail.length){trail=trail.filter(p=>now-p.time<950);let path='';for(const p of trail){const age=now-p.time,life=1-age/950,r=p.r*Math.pow(life,.65)*mix(.55,1,Math.min(age/90,1))*(1+.12*Math.sin(p.seed+now*.006));path+=`M${(p.x-r).toFixed(1)} ${p.y.toFixed(1)}a${r.toFixed(1)} ${r.toFixed(1)} 0 1 1 ${(r*2).toFixed(1)} 0a${r.toFixed(1)} ${r.toFixed(1)} 0 1 1 ${(-r*2).toFixed(1)} 0Z`}overlay.style.clipPath=`path('${path||'M0 0Z'}')`}
-      const amt=reduced.matches?0:Math.min(Math.abs(velocity)*.03,1);let nearest=Infinity,nearestIndex=0;
-      const cardSets=Object.values(layers).map(l=>$$('.reel-card',l));
-      for(let k=0;k<count;k++){
-        const y=mod(k*step+offset,total)-1.5*step,s=y-(reelH/2-itemH/2),c=clamp(s/(reelH*.5),-1.3,1.3),theta=clamp(s/(reelH*.62),-1.7,1.7),R=reelH*.62;
-        if(Math.abs(s)<nearest){nearest=Math.abs(s);nearestIndex=k%5}
-        const x=-Math.sin(theta)*reelW*.06*curve,yy=mix(y,reelH/2-itemH/2+Math.sin(theta)*R,curve),z=((Math.cos(theta)-1)*R-60)*curve,rx=mix(c*amt*24,-theta*57.3*.85,curve),ry=-12*curve,rz=-2.5*curve,sx=mix(1+amt*.22*c*c,.9,curve),sy=mix(1+amt*.05*Math.abs(c),.9,curve),opacity=mix(1,1-clamp((Math.abs(theta)-.75)/.6,0,1),curve);
-        const transform=`translate3d(${x.toFixed(2)}px,${yy.toFixed(2)}px,${z.toFixed(2)}px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg) scale(${sx.toFixed(4)},${sy.toFixed(4)})`;
-        for(const cards of cardSets){const card=cards[k];card.style.transform=transform;card.style.opacity=opacity;const centered=Math.abs(s)<step*.47;card.classList.toggle('is-center',centered);card.style.pointerEvents=Math.abs(s)<reelH*.8?'auto':'none'}
-      }
-      showActive(nearestIndex);if(theme==='dark'||wipe||trail.length)smoke?.render(now,reduced.matches);
-      raf=requestAnimationFrame(render);
-    }
-    function createSmoke(){
-      const canvas=document.createElement('canvas');canvas.className='smoke';$('.bg',layers.dark).append(canvas);const gl=canvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'low-power'});if(!gl)return null;
-      try{
-        const vertex='attribute vec2 a;varying vec2 uv;void main(){uv=a*.5+.5;gl_Position=vec4(a,0.,1.);}';
-        const field='precision mediump float;varying vec2 uv;uniform sampler2D tex;uniform vec2 mouse;uniform vec2 force;uniform float aspect;void main(){vec4 old=texture2D(tex,uv);vec2 v=(old.rg-.5)*2.;if(length(v)<.006)v=vec2(0.);vec4 adv=texture2D(tex,uv-v*.01);v=(adv.rg-.5)*2.*.972;float d=max(adv.b*.968-.002,0.);vec2 p=(uv-mouse)*vec2(aspect,1.);float g=exp(-dot(p,p)/.0028);v+=force*g;d+=g*min(1.,length(force)*6.)*.5;gl_FragColor=vec4(clamp(v*.5+.5,0.,1.),clamp(d,0.,1.),1.);}';
-        const display=`precision mediump float;varying vec2 uv;uniform sampler2D tex;uniform float time;uniform float aspect;
-          float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.)),f.x),f.y);}float fbm(vec2 p){float s=0.,a=.5;for(int i=0;i<5;i++){s+=a*noise(p);p=mat2(1.6,1.2,-1.2,1.6)*p+1.7;a*=.5;}return s;}
-          void main(){vec4 field=texture2D(tex,uv);vec2 v=(field.rg-.5)*2.;float density=field.b;vec2 p=uv*vec2(aspect,1.)*2.2;float n1=fbm(p+time*vec2(.035,.02));float n2=fbm(p*1.6+n1*1.7-time*vec2(.045,-.01));vec2 warp=vec2(n1-.5,n2-.5)*.7-v*.6;float cloud=fbm(p+warp*2.+time*.012);float mist=smoothstep(.38,.95,fbm(p*.85+warp*2.-v*4.+time*vec2(-.06,.025)));vec3 col=mix(vec3(.075,.034,.17),vec3(.31,.16,.47),smoothstep(.2,.8,cloud));col+=vec3(.52,.38,1.)*mist*.2;col+=vec3(.72,.56,1.)*density*.4;float edge=length(v)*.1+density*.015;col.r+=edge*.8;col.b+=edge;col*=mix(1.,.66,smoothstep(.2,1.1,distance(uv,vec2(.64,.48))));gl_FragColor=vec4(col,1.);}`;
-        function program(fragment){const p=gl.createProgram();for(const [type,source] of [[gl.VERTEX_SHADER,vertex],[gl.FRAGMENT_SHADER,fragment]]){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error('shader');gl.attachShader(p,s)}gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw Error('link');const uniform={};for(const key of ['tex','mouse','force','aspect','time'])uniform[key]=gl.getUniformLocation(p,key);return {p,uniform,a:gl.getAttribLocation(p,'a')}}
-        const trailProgram=program(field),displayProgram=program(display),buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);let buffers=[],mx=.6,my=.5,px=.6,py=.5,lastTime=0,fw=0,fh=0,swap=0;
-        function resize(){const dpr=Math.min(devicePixelRatio||1,1.25);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);fw=Math.max(1,Math.round(canvas.width/4));fh=Math.max(1,Math.round(canvas.height/4));for(const b of buffers){gl.deleteTexture(b.texture);gl.deleteFramebuffer(b.frame)}buffers=[];for(let i=0;i<2;i++){const texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,fw,fh,0,gl.RGBA,gl.UNSIGNED_BYTE,null);const frame=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,frame);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,texture,0);gl.clearColor(.5,.5,0,1);gl.clear(gl.COLOR_BUFFER_BIT);buffers.push({texture,frame})}gl.bindFramebuffer(gl.FRAMEBUFFER,null)}
-        function draw(prog,frame,w,h,texture){gl.useProgram(prog.p);gl.bindFramebuffer(gl.FRAMEBUFFER,frame);gl.viewport(0,0,w,h);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.enableVertexAttribArray(prog.a);gl.vertexAttribPointer(prog.a,2,gl.FLOAT,false,0,0);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texture);gl.uniform1i(prog.uniform.tex,0);gl.uniform1f(prog.uniform.aspect,W/H)}
-        return {resize,pointer(x,y){mx=x;my=y},render(now,quiet){if(now-lastTime<32||!buffers.length||gl.isContextLost())return;lastTime=now;const from=buffers[swap],to=buffers[1-swap];let fx=(mx-px)*9,fy=(my-py)*9;const length=Math.hypot(fx,fy);if(length>1){fx/=length;fy/=length}px=mx;py=my;draw(trailProgram,to.frame,fw,fh,from.texture);gl.uniform2f(trailProgram.uniform.mouse,mx,my);gl.uniform2f(trailProgram.uniform.force,quiet?0:fx,quiet?0:fy);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);draw(displayProgram,null,canvas.width,canvas.height,to.texture);gl.uniform1f(displayProgram.uniform.time,quiet?0:now*.001);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);swap=1-swap}};
-      }catch{canvas.remove();return null}
-    }
-    const smoke=createSmoke();layout();showActive(0);raf=requestAnimationFrame(render);let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(layout,120)});document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(raf);else{last=performance.now();raf=requestAnimationFrame(render)}});
     const works=$('#works-panel'),about=$('#about-panel'),resume=$('#resume-panel'),film=$('#film-panel');
     const filters=[...data.categories,['motion','AI 影像']];let category='all';
     const entries=[...data.projects,...data.films.map((v,i)=>({...v,id:'film-'+(i+1),category:'motion',coverThumb:'assets/posters/film-'+(i+1)+'.jpg',index:i+1,subtitle:'AIGC / MOTION FILM',year:'2026'}))];
