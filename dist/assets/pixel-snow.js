@@ -306,9 +306,10 @@ const buildAtlas = () => {
   const settingsRef={current:{color:'#858d80',variant:2,density:.18,speed:.55,wind:.12,sway:.35,flakeSize:.55,pixelSize:2,depth:.65,brightness:.85,glow:.18,twinkle:.2,accumulate:false,mouseInteraction:true,intro:true,fade:.14,opacity:.5,lightMode:true,paused:false,dpr:Math.min(devicePixelRatio||1,1.25)}};
   function syncSettings(){
     const blocked=!!document.querySelector('dialog[open]');
-    const dark=document.documentElement.dataset.theme==='dark'||root.classList.contains('focused');
-    Object.assign(settingsRef.current,{color:dark?'#f4f5ef':'#858d80',lightMode:!dark,opacity:dark?.55:.5,density:mobile.matches?.12:.18,paused:blocked||reducedMotion.matches,mouseInteraction:!blocked&&!reducedMotion.matches&&!mobile.matches});
-    overlay.hidden=blocked||reducedMotion.matches;
+    const night=document.documentElement.dataset.theme==='dark';
+    const dark=night||root.classList.contains('focused');
+    Object.assign(settingsRef.current,{color:dark?'#f4f5ef':'#858d80',lightMode:!dark,opacity:dark?.55:.5,density:mobile.matches?.12:.18,paused:blocked||reducedMotion.matches||!night,mouseInteraction:!blocked&&!reducedMotion.matches&&!mobile.matches});
+    overlay.hidden=blocked||reducedMotion.matches||!night;
     wakeRef.current?.();
   }
   syncSettings();
