@@ -8,7 +8,8 @@
   const motion=matchMedia('(prefers-reduced-motion: reduce)'),mobile=matchMedia('(max-width:720px)');
   let width=1,height=1,raf=0,last=0,time=0,intro=0,disposed=false;
   const stage=root.querySelector('.m-stage'),drops=[],splashes=[],beads=[],front=[0,0],flow=[0,0],wave=new Float32Array(56),velocity=new Float32Array(56);
-  let water=0,shape=null;
+  let water=0,shape=null,ink='#60777d',inkRGB='96,119,125';
+  const tint=alpha=>`rgba(${inkRGB},${alpha})`;
   const markers=[[0,0],[100,0],[100,100],[0,100]].map(([x,y])=>{const m=document.createElement('i');m.setAttribute('aria-hidden','true');m.style.cssText=`position:absolute;left:${x}%;top:${y}%;width:0;height:0;pointer-events:none`;stage.append(m);return m;});
   const sub=(a,b)=>({x:a.x-b.x,y:a.y-b.y}),cross=(a,b)=>a.x*b.y-a.y*b.x,mix=(a,b,t)=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t});
   function inside(p,polygon){let sign=0;for(let i=0;i<polygon.length;i++){const c=cross(sub(polygon[(i+1)%polygon.length],polygon[i]),sub(p,polygon[i]));if(Math.abs(c)<.001)continue;const next=Math.sign(c);if(sign&&next!==sign)return false;sign=next;}return true;}
@@ -21,25 +22,25 @@
   function waterEffects(dt,fade){
     const steps=Math.ceil(dt/.016),h=dt/steps;for(let k=0;k<steps;k++){for(let i=0;i<wave.length;i++)velocity[i]+=((wave[Math.max(0,i-1)]+wave[Math.min(wave.length-1,i+1)]-2*wave[i])*95-wave[i]*20-velocity[i]*7)*h;for(let i=0;i<wave.length;i++)wave[i]=Math.max(-1.5,Math.min(1.5,wave[i]+velocity[i]*h));}
     water=Math.max(0,water-water*.16*dt);if(!shape)return;
-    const {quad,normal}=shape,level=Math.min(4.5,water),surface=[];
+    const {quad,normal}=shape,level=Math.min(3.2,water),surface=[];
     if(level>.025){for(let i=0;i<wave.length;i++){const t=i/(wave.length-1),b=mix(quad[0],quad[1],t),rise=Math.max(.15,level+wave[i]+Math.sin(t*21+time*1.8)*.18);surface.push({x:b.x-normal.x*rise,y:b.y-normal.y*rise});}
-      const p=mix(quad[0],quad[1],.5),gradient=ctx.createLinearGradient(p.x-normal.x*6,p.y-normal.y*6,p.x+normal.x,p.y+normal.y);gradient.addColorStop(0,'rgba(234,248,249,.86)');gradient.addColorStop(.7,'rgba(163,195,201,.55)');gradient.addColorStop(1,'rgba(81,125,138,.50)');ctx.globalAlpha=fade;ctx.fillStyle=gradient;ctx.beginPath();ctx.moveTo(surface[0].x,surface[0].y);for(const p of surface.slice(1))ctx.lineTo(p.x,p.y);ctx.lineTo(quad[1].x+normal.x*.7,quad[1].y+normal.y*.7);ctx.lineTo(quad[0].x+normal.x*.7,quad[0].y+normal.y*.7);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(241,252,253,.92)';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(surface[0].x,surface[0].y);for(const p of surface.slice(1))ctx.lineTo(p.x,p.y);ctx.stroke();}
-    for(let side=0;side<2;side++){const e=edge(side);front[side]=water>.35?Math.min(e.length,front[side]+(60+water*31)*dt):Math.max(0,front[side]-8*dt);flow[side]+=Math.max(0,water-.35)*.8*dt;while(flow[side]>=1&&beads.length<60){flow[side]--;beads.push({side,distance:0,speed:55+Math.random()*35,size:1.2+Math.random()*1.1,tail:10+Math.random()*16,free:false});}if(front[side]<1)continue;
-      ctx.globalAlpha=fade*Math.min(.6,water*.16);ctx.lineWidth=3;ctx.strokeStyle='#84aab4';ctx.lineCap='round';ctx.beginPath();for(let i=0;i<=18;i++){const d=front[side]*i/18,w=Math.sin(d*.065-time*2.5)*.7,x=e.a.x+e.direction.x*d+e.outward.x*(1+w),y=e.a.y+e.direction.y*d+e.outward.y*(1+w);if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);}ctx.stroke();ctx.globalAlpha=fade*.65;ctx.lineWidth=.7;ctx.strokeStyle='#effcfd';ctx.stroke();}
+      const p=mix(quad[0],quad[1],.5),gradient=ctx.createLinearGradient(p.x-normal.x*6,p.y-normal.y*6,p.x+normal.x,p.y+normal.y);gradient.addColorStop(0,tint(.06));gradient.addColorStop(.7,tint(.18));gradient.addColorStop(1,tint(.32));ctx.globalAlpha=fade;ctx.fillStyle=gradient;ctx.beginPath();ctx.moveTo(surface[0].x,surface[0].y);for(const p of surface.slice(1))ctx.lineTo(p.x,p.y);ctx.lineTo(quad[1].x+normal.x*.7,quad[1].y+normal.y*.7);ctx.lineTo(quad[0].x+normal.x*.7,quad[0].y+normal.y*.7);ctx.closePath();ctx.fill();ctx.strokeStyle=tint(.38);ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(surface[0].x,surface[0].y);for(const p of surface.slice(1))ctx.lineTo(p.x,p.y);ctx.stroke();}
+    for(let side=0;side<2;side++){const e=edge(side);front[side]=water>.35?Math.min(e.length,front[side]+(60+water*31)*dt):Math.max(0,front[side]-8*dt);flow[side]+=Math.max(0,water-.35)*.8*dt;while(flow[side]>=1&&beads.length<60){flow[side]--;beads.push({side,distance:0,speed:55+Math.random()*35,size:.9+Math.random()*.8,tail:10+Math.random()*16,free:false});}if(front[side]<1)continue;
+      ctx.globalAlpha=fade*Math.min(.28,water*.1);ctx.lineWidth=2;ctx.strokeStyle=ink;ctx.lineCap='round';ctx.beginPath();for(let i=0;i<=18;i++){const d=front[side]*i/18,w=Math.sin(d*.065-time*2.5)*.7,x=e.a.x+e.direction.x*d+e.outward.x*(1+w),y=e.a.y+e.direction.y*d+e.outward.y*(1+w);if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);}ctx.stroke();ctx.globalAlpha=fade*.25;ctx.lineWidth=.55;ctx.strokeStyle=ink;ctx.stroke();}
     for(let i=beads.length-1;i>=0;i--){const b=beads[i],e=edge(b.side);b.speed+=110*dt;b.distance+=b.speed*dt;const p={x:e.a.x+e.direction.x*Math.min(b.distance,e.length)+e.outward.x*1.3,y:e.a.y+e.direction.y*Math.min(b.distance,e.length)+e.outward.y*1.3};if(b.distance>e.length){if(!b.free){b.free=true;b.x=p.x;b.y=p.y;b.vy=b.speed;b.life=.8;}b.vy+=350*dt;b.y+=b.vy*dt;b.x+=e.outward.x*9*dt;b.life-=dt;p.x=b.x;p.y=b.y;if(b.life<=0||b.y>height+30){beads.splice(i,1);continue;}}
-      ctx.globalAlpha=fade*(b.free?.55:.65);ctx.strokeStyle='#a7cbd3';ctx.lineWidth=b.size;ctx.beginPath();ctx.moveTo(p.x-(b.free?0:e.direction.x)*b.tail,p.y-(b.free?1:e.direction.y)*b.tail);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.fillStyle='#e6f7f9';ctx.beginPath();ctx.ellipse(p.x,p.y,b.size*.65,b.size*1.25,0,0,Math.PI*2);ctx.fill();}
-    for(let i=splashes.length-1;i>=0;i--){const p=splashes[i];p.life-=dt;p.vy+=230*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.life<=0||inside(p,quad)){splashes.splice(i,1);continue;}ctx.globalAlpha=fade*p.life/.54*.65;ctx.fillStyle='#99bdc8';ctx.beginPath();ctx.ellipse(p.x,p.y,p.size*.7,p.size,0,0,Math.PI*2);ctx.fill();}
+      ctx.globalAlpha=fade*(b.free?.4:.48);ctx.strokeStyle=ink;ctx.lineWidth=b.size;ctx.beginPath();ctx.moveTo(p.x-(b.free?0:e.direction.x)*b.tail,p.y-(b.free?1:e.direction.y)*b.tail);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.fillStyle=ink;ctx.beginPath();ctx.ellipse(p.x,p.y,b.size*.65,b.size*1.25,0,0,Math.PI*2);ctx.fill();}
+    for(let i=splashes.length-1;i>=0;i--){const p=splashes[i];p.life-=dt;p.vy+=230*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.life<=0||inside(p,quad)){splashes.splice(i,1);continue;}ctx.globalAlpha=fade*p.life/.54*.4;ctx.fillStyle=ink;ctx.beginPath();ctx.ellipse(p.x,p.y,p.size*.7,p.size,0,0,Math.PI*2);ctx.fill();}
   }
   function spawn(drop,top=false){
     const depth=Math.random();
-    Object.assign(drop,{x:Math.random()*(width+60)-30,y:top?-30-Math.random()*70:Math.random()*height,length:8+depth*18,speed:150+depth*190,alpha:.18+depth*.23,width:depth>.72?1.1:.7});
+    Object.assign(drop,{x:Math.random()*(width+60)-30,y:top?-30-Math.random()*70:Math.random()*height,length:9+depth*14,speed:150+depth*190,alpha:.15+depth*.19,width:depth>.72?.85:.55});
   }
   function allowed(){return !disposed&&document.documentElement.dataset.theme!=='dark'&&!motion.matches&&!document.hidden&&!document.querySelector('dialog[open]');}
   function draw(now){
     raf=0;if(!allowed())return;
     if(last&&now-last<1000/30){raf=requestAnimationFrame(draw);return;}
     const dt=last?Math.min((now-last)/1000,.06):1/30;last=now;time+=dt;intro=Math.min(1,intro+dt);
-    ctx.clearRect(0,0,width,height);ctx.lineCap='butt';ctx.strokeStyle=root.classList.contains('focused')?'#f2f5f4':'#60777d';
+    ctx.clearRect(0,0,width,height);ctx.lineCap='round';const focused=root.classList.contains('focused');ink=focused?'#f2f5f4':'#60777d';inkRGB=focused?'242,245,244':'96,119,125';ctx.strokeStyle=ink;
     const wind=.15+Math.sin(time*.32)*.025,fade=intro*intro*(3-2*intro);shape=geometry(wind);
     // The obstacle is extruded downwind to leave a dry rain shadow beneath the image.
     ctx.save();if(shape){ctx.beginPath();ctx.rect(0,0,width,height);path(shape.shadow);ctx.clip('evenodd');}
