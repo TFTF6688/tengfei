@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $=s=>document.querySelector(s), root=$('.minimal'), stage=$('.m-stage'), canvas=$('.m-canvas'), fallback=$('.m-fallback');
-  const data=JSON.parse($('#portfolio-data').textContent), ids=['maestri-s2','zhiyue-projector','ai-application','cinema4d-octane','packaging-a'];
+  const data=JSON.parse($('#portfolio-data').textContent), ids=['maestri-s2','zhiyue-projector','ai-application','cinema4d-octane','kv-domestic'];
   const projects=ids.map(id=>data.projects.find(p=>p.id===id)), reduced=matchMedia('(prefers-reduced-motion: reduce)');
   let active=0, desired=0, current=0, transition=null, raf=0, wheelTime=-1000, drag=null, blocked=0, contextLost=false, pointerDirty=false;
   const pointer={x:0,y:0}, smooth={x:0,y:0}, dots=[], textures=[];

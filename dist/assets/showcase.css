@@ -69,3 +69,5 @@ html:has(dialog[open]) .showcase *,html:has(dialog[open]) .showcase *:before,htm
 .showcase .m-stage[href*="/zhiyue-projector/"] .m-fallback,.showcase .m-stage[href*="/ai-application/"] .m-fallback{object-position:50% 50%}
 
 .showcase .m-stage[href*="/cinema4d-octane/"] .m-fallback{object-position:50% 50%}
+
+.showcase .m-stage[href*="/kv-domestic/"] .m-fallback{object-position:50% 50%}
