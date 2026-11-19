@@ -13,7 +13,7 @@ for(const entry of await fs.readdir('dist/assets',{withFileTypes:true})){
  await fs.cp('dist/assets/'+entry.name,'out/assets/'+entry.name,{recursive:true});
 }
 for(const p of data.projects)await fs.cp(`dist/work/${p.id}`,`out/work/${p.id}`,{recursive:true});
-for(const file of ['index.html','showcase-v3.html','title-warp-original.html','classic.html']){
+for(const file of ['index.html','showcase-v3.html','title-warp-original.html','title-showcase-hybrid.html','classic.html']){
  let html=await fs.readFile('out/'+file,'utf8');html=html.replace(pattern,(_,a,b,c)=>a+JSON.stringify(data)+c).replaceAll("['air','ai-model','kv-domestic','charger','packaging-a']","['maestri-s2','zhiyue-projector','ai-application','cinema4d-octane','kv-domestic']");
  for(const [old,current] of Object.entries({air:'maestri-s2','ai-model':'ai-application',charger:'cinema4d-octane','packaging-a':'domestic-campaigns'}))html=html.replaceAll(`work/${old}/index.html`,`work/${current}/index.html`);
  await fs.writeFile('out/'+file,html);
