@@ -65,3 +65,5 @@
 html:has(dialog[open]) .showcase *,html:has(dialog[open]) .showcase *:before,html:has(dialog[open]) .showcase *:after{animation-play-state:paused}
 
 .showcase .m-stage .m-fallback{object-position:62% 50%}
+
+.showcase .m-stage[href*="/zhiyue-projector/"] .m-fallback{object-position:50% 50%}

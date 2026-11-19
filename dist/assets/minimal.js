@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $=s=>document.querySelector(s), root=$('.minimal'), stage=$('.m-stage'), canvas=$('.m-canvas'), fallback=$('.m-fallback');
-  const data=JSON.parse($('#portfolio-data').textContent), ids=['maestri-s2','air','ai-model','kv-domestic','packaging-a'];
+  const data=JSON.parse($('#portfolio-data').textContent), ids=['maestri-s2','zhiyue-projector','ai-model','kv-domestic','packaging-a'];
   const projects=ids.map(id=>data.projects.find(p=>p.id===id)), reduced=matchMedia('(prefers-reduced-motion: reduce)');
   let active=0, desired=0, current=0, transition=null, raf=0, wheelTime=-1000, drag=null, blocked=0, contextLost=false, pointerDirty=false;
   const pointer={x:0,y:0}, smooth={x:0,y:0}, dots=[], textures=[];
@@ -44,7 +44,7 @@
   function render(now){raf=0;if(document.hidden)return;
     smooth.x+=(pointer.x-smooth.x)*.09;smooth.y+=(pointer.y-smooth.y)*.09;
     let p=0,from=current,to=current,direction=1;if(transition){p=transition.duration?Math.min((now-transition.start)/transition.duration,1):1;from=transition.from;to=transition.to;direction=transition.direction;}
-    if(gl&&program&&!contextLost&&textures[from]?.ready&&textures[to]?.ready){gl.useProgram(program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,textures[from].texture);gl.uniform1i(uniforms.imageA,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,textures[to].texture);gl.uniform1i(uniforms.imageB,1);gl.uniform1f(uniforms.progress,p*p*(3.-2.*p));gl.uniform1f(uniforms.direction,direction);gl.uniform2f(uniforms.size,canvas.width,canvas.height);gl.uniform2f(uniforms.ratioA,textures[from].width,textures[from].height);gl.uniform2f(uniforms.ratioB,textures[to].width,textures[to].height);const focusValues=[[.62,.5],[.66,.5],[.5,.65],[.5,.5],[.5,.5]];gl.uniform2f(uniforms.focusA,...focusValues[from]);gl.uniform2f(uniforms.focusB,...focusValues[to]);gl.uniform2f(uniforms.mouse,smooth.x,smooth.y);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);}
+    if(gl&&program&&!contextLost&&textures[from]?.ready&&textures[to]?.ready){gl.useProgram(program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,textures[from].texture);gl.uniform1i(uniforms.imageA,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,textures[to].texture);gl.uniform1i(uniforms.imageB,1);gl.uniform1f(uniforms.progress,p*p*(3.-2.*p));gl.uniform1f(uniforms.direction,direction);gl.uniform2f(uniforms.size,canvas.width,canvas.height);gl.uniform2f(uniforms.ratioA,textures[from].width,textures[from].height);gl.uniform2f(uniforms.ratioB,textures[to].width,textures[to].height);const focusValues=[[.62,.5],[.5,.5],[.5,.65],[.5,.5],[.5,.5]];gl.uniform2f(uniforms.focusA,...focusValues[from]);gl.uniform2f(uniforms.focusB,...focusValues[to]);gl.uniform2f(uniforms.mouse,smooth.x,smooth.y);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);}
     if(transition&&p>=1){current=transition.to;transition=null;if(current!==desired)begin();}
     pointerDirty=Math.abs(pointer.x-smooth.x)+Math.abs(pointer.y-smooth.y)>.002;
     if((transition||pointerDirty)&&!raf)raf=requestAnimationFrame(render);
