@@ -54,7 +54,7 @@
   }
   function sync(){
     const active=allowed();layer.hidden=!active;
-    if(!active){if(raf)cancelAnimationFrame(raf);raf=0;last=0;return;}
+    if(!active||root.hasAttribute('data-spring-active')){if(raf)cancelAnimationFrame(raf);raf=0;last=0;return;}
     if(!raf){last=0;raf=requestAnimationFrame(draw);}
   }
   function resize(){
@@ -65,7 +65,7 @@
     for(const drop of drops){if(drop.x>width||drop.y>height)spawn(drop);}sync();
   }
   const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(root);
-  const observer=new MutationObserver(sync);observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});observer.observe(root,{attributes:true,attributeFilter:['class']});
+  const observer=new MutationObserver(sync);observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});observer.observe(root,{attributes:true,attributeFilter:['class','data-spring-active']});
   document.querySelectorAll('dialog').forEach(d=>observer.observe(d,{attributes:true,attributeFilter:['open']}));
   motion.addEventListener('change',sync);mobile.addEventListener('change',resize);document.addEventListener('visibilitychange',sync);
   function destroy(){if(disposed)return;disposed=true;if(raf)cancelAnimationFrame(raf);resizeObserver.disconnect();observer.disconnect();motion.removeEventListener('change',sync);mobile.removeEventListener('change',resize);document.removeEventListener('visibilitychange',sync);markers.forEach(m=>m.remove());layer.hidden=true;}
