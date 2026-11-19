@@ -176,7 +176,7 @@ gl.useProgram(program);gl.uniform1i(uniforms.uTextTexture,0);
 const values={uWarpStrength:.08,uWarpScale:1.7,uSpeed:.55,uPointerInfluence:.42,uPointerStrength:.38,uRefraction:.018,uChromatic:0,uRipple:1,uMotion:1,uLens:0};
 for(const [key,val] of Object.entries(values))gl.uniform1f(uniforms[key],val);
 gl.clearColor(0,0,0,0);
-function allowed(){return !disposed&&!lost&&!motion.matches&&!document.hidden&&visible&&!root.hasAttribute('data-title-perch')&&!document.querySelector('dialog[open]');}
+function allowed(){return !disposed&&!lost&&!motion.matches&&!document.hidden&&visible&&!document.querySelector('dialog[open]');}
 function rasterize(){
   if(disposed||lost)return;
   const bounds=heading.getBoundingClientRect(),width=bounds.width+pad*2,height=bounds.height+pad*2;if(width<=pad*2||height<=pad*2)return;
@@ -206,7 +206,7 @@ function draw(now){
 }
 function wake(){if(!raf&&allowed()){last=0;raf=requestAnimationFrame(draw);}}
 function sync(){
-  if(!allowed()){if(raf)cancelAnimationFrame(raf);raf=0;last=0;if(motion.matches||root.hasAttribute('data-title-perch'))heading.classList.remove('warp-ready');return;}
+  if(!allowed()){if(raf)cancelAnimationFrame(raf);raf=0;last=0;if(motion.matches)heading.classList.remove('warp-ready');return;}
   rasterize();wake();
 }
 function move(e){if(e.pointerType==='touch')return;const r=canvas.getBoundingClientRect();pointer.tx=(e.clientX-r.left)/r.width;pointer.ty=1-(e.clientY-r.top)/r.height;pointer.target=1;wake();}
@@ -215,7 +215,7 @@ function click(e){if(motion.matches||e.button!==0)return;const r=canvas.getBound
 heading.addEventListener('pointermove',move,{passive:true});heading.addEventListener('pointerleave',leave);heading.addEventListener('pointerdown',click,{passive:true});
 const resize=new ResizeObserver(rasterize);resize.observe(heading);
 const intersection=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();});intersection.observe(heading);
-const observer=new MutationObserver(sync);observer.observe(root,{attributes:true,attributeFilter:['class','data-title-perch']});observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});document.querySelectorAll('dialog').forEach(d=>observer.observe(d,{attributes:true,attributeFilter:['open']}));
+const observer=new MutationObserver(sync);observer.observe(root,{attributes:true,attributeFilter:['class']});observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});document.querySelectorAll('dialog').forEach(d=>observer.observe(d,{attributes:true,attributeFilter:['open']}));
 document.addEventListener('visibilitychange',sync);motion.addEventListener('change',sync);
 function destroy(){if(disposed)return;disposed=true;if(raf)cancelAnimationFrame(raf);resize.disconnect();intersection.disconnect();observer.disconnect();document.removeEventListener('visibilitychange',sync);motion.removeEventListener('change',sync);heading.removeEventListener('pointermove',move);heading.removeEventListener('pointerleave',leave);heading.removeEventListener('pointerdown',click);heading.classList.remove('warp-ready','warp-title');if(!lost){gl.deleteTexture(texture);gl.deleteProgram(program);gl.deleteBuffer(buffer);if(gl._warpUvBuffer)gl.deleteBuffer(gl._warpUvBuffer);}canvas.remove();}
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lost=true;destroy();},{once:true});window.addEventListener('pagehide',e=>{if(!e.persisted)destroy();});

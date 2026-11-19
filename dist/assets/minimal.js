@@ -5,9 +5,7 @@
   const projects=ids.map(id=>data.projects.find(p=>p.id===id)), reduced=matchMedia('(prefers-reduced-motion: reduce)');
   let active=0, desired=0, current=0, transition=null, raf=0, wheelTime=-1000, drag=null, blocked=0, contextLost=false, pointerDirty=false;
   const pointer={x:0,y:0}, smooth={x:0,y:0}, dots=[], textures=[];
-  let theme='light';try{theme=localStorage.getItem('portfolio-minimal-theme')==='dark'?'dark':'light';}catch{}
-  function setTheme(){document.documentElement.dataset.theme=theme;$('.m-theme').setAttribute('aria-pressed',String(theme==='dark'));$('.m-theme').setAttribute('aria-label',theme==='dark'?'切换到浅色模式':'切换到深色模式');$('meta[name=theme-color]').content=theme==='light'?'#f4f3ee':'#141512';try{localStorage.setItem('portfolio-minimal-theme',theme);}catch{}}
-  setTheme();$('.m-theme').addEventListener('click',()=>{theme=theme==='light'?'dark':'light';setTheme();});
+  document.documentElement.dataset.theme='dark';
   function setFocus(value){root.classList.toggle('focused',value);$('.m-focus').setAttribute('aria-pressed',String(value));$('.m-focus-label').textContent=value?'退出沉浸':'沉浸浏览';setTimeout(resize,1250);}
   $('.m-focus').addEventListener('click',()=>setFocus(!root.classList.contains('focused')));
   function metadata(){const p=projects[active];$('.m-current').textContent=String(active+1).padStart(2,'0');$('.m-project-title').textContent=p.title;$('.m-project-title').href=`work/${p.id}/index.html`;$('.m-project-tag').textContent=p.subtitle;$('.m-selected-link').href=`work/${p.id}/index.html`;stage.href=`work/${p.id}/index.html`;stage.setAttribute('aria-label',`查看${p.title}，可拖动切换作品`);dots.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===active)));const box=$('.m-project-text');box.classList.remove('m-fade');void box.offsetWidth;box.classList.add('m-fade');}
