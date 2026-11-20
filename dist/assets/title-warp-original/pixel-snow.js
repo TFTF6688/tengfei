@@ -303,15 +303,18 @@ const buildAtlas = () => {
   if(!overlay)return;
   const containerRef={current:overlay},canvasRef={current:overlay.querySelector('canvas')},wakeRef={current:null};
   const mobile=matchMedia('(max-width:720px)'),reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
-  const settingsRef={current:{color:'#858d80',variant:2,density:.18,speed:.55,wind:.12,sway:.35,flakeSize:.55,pixelSize:2,depth:.65,brightness:.85,glow:.18,twinkle:.2,accumulate:false,mouseInteraction:true,intro:true,fade:.14,opacity:.36,lightMode:true,paused:false,dpr:Math.min(devicePixelRatio||1,1.25)}};
+  const settingsRef={current:{color:'#7b8575',variant:2,density:.25,speed:.55,wind:.12,sway:.35,flakeSize:.7,pixelSize:2,depth:.6,brightness:1.05,glow:.65,twinkle:.55,accumulate:false,mouseInteraction:true,intro:true,fade:.1,opacity:.65,lightMode:true,paused:false,dpr:Math.min(devicePixelRatio||1,1.25)}};
   function syncSettings(){
     const blocked=!!document.querySelector('dialog[open]');
-    const dark=document.documentElement.dataset.theme==='dark'||root.classList.contains('focused');
-    Object.assign(settingsRef.current,{color:dark?'#f4f5ef':'#858d80',lightMode:!dark,opacity:dark?.42:.36,density:mobile.matches?.12:.18,paused:blocked||reducedMotion.matches,mouseInteraction:!blocked&&!reducedMotion.matches});
+    const immersed=root.classList.contains('focused');
+    const faded=immersed&&Number(getComputedStyle(overlay).opacity)<.001;
+    const dark=document.documentElement.dataset.theme==='dark';
+    Object.assign(settingsRef.current,{color:dark?'#ffffff':'#7b8575',lightMode:!dark,opacity:dark?.65:.48,density:mobile.matches?.17:.25,brightness:dark?1.05:.95,glow:dark?.65:.35,paused:blocked||faded||reducedMotion.matches,mouseInteraction:!blocked&&!immersed&&!reducedMotion.matches});
     overlay.hidden=blocked||reducedMotion.matches;
     wakeRef.current?.();
   }
   syncSettings();
+  overlay.addEventListener('transitionend',event=>{if(event.target===overlay&&event.propertyName==='opacity')syncSettings();});
   const dispose=(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;

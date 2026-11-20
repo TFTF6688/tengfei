@@ -114,6 +114,10 @@
   if (reducedMotion.matches) scene.valleyScene.toggleAutoScroll(false);
   const valley = scene.valleyScene;
   let touchDrag = null;
+  function moveOverFlowers(event) {
+    valley.uniforms.uBrightnessOnTouch.value = valley.settings.uBrightnessOnTouch;
+    scene.onMouseMove(event);
+  }
   window.removeEventListener('pointermove', scene.onMouseMove);
   window.addEventListener('pointerdown', event => {
     if (event.pointerType !== 'touch' || reducedMotion.matches) return;
@@ -121,13 +125,11 @@
     if (event.target.closest('button, a')) return;
     touchDrag = {id:event.pointerId,x:event.clientX,y:event.clientY,lastY:event.clientY,axis:null};
     valley.toggleAutoScroll(false);
-    valley.uniforms.uBrightnessOnTouch.value = 0;
     mount.setPointerCapture(event.pointerId);
   });
   window.addEventListener('pointermove', event => {
     if (event.pointerType !== 'touch') {
-      valley.uniforms.uBrightnessOnTouch.value = valley.settings.uBrightnessOnTouch;
-      scene.onMouseMove(event);
+      moveOverFlowers(event);
       return;
     }
     if (!touchDrag || event.pointerId !== touchDrag.id) return;
@@ -136,9 +138,9 @@
     if (!touchDrag.axis) return;
     if (event.cancelable) event.preventDefault();
     if (touchDrag.axis === 'horizontal') {
-      valley.uniforms.uBrightnessOnTouch.value = valley.settings.uBrightnessOnTouch;
-      scene.onMouseMove(event);
+      moveOverFlowers(event);
     } else {
+      valley.uniforms.uBrightnessOnTouch.value = 0;
       mount.dispatchEvent(new WheelEvent('wheel',{deltaY:-(event.clientY-touchDrag.lastY)*20}));
     }
     touchDrag.lastY=event.clientY;
@@ -146,7 +148,6 @@
   function finishTouch(event) {
     if (!touchDrag || (event && event.pointerId!==touchDrag.id)) return;
     touchDrag=null;
-    valley.uniforms.uBrightnessOnTouch.value=0;
     valley.toggleAutoScroll(!reducedMotion.matches);
   }
   window.addEventListener('pointerup',finishTouch);
