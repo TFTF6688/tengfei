@@ -307,7 +307,7 @@ const buildAtlas = () => {
   function syncSettings(){
     const blocked=!!document.querySelector('dialog[open]');
     const dark=document.documentElement.dataset.theme==='dark'||root.classList.contains('focused');
-    Object.assign(settingsRef.current,{color:dark?'#f4f5ef':'#858d80',lightMode:!dark,opacity:dark?.42:.36,density:mobile.matches?.12:.18,paused:blocked||reducedMotion.matches,mouseInteraction:!blocked&&!reducedMotion.matches&&!mobile.matches});
+    Object.assign(settingsRef.current,{color:dark?'#f4f5ef':'#858d80',lightMode:!dark,opacity:dark?.42:.36,density:mobile.matches?.12:.18,paused:blocked||reducedMotion.matches,mouseInteraction:!blocked&&!reducedMotion.matches});
     overlay.hidden=blocked||reducedMotion.matches;
     wakeRef.current?.();
   }
@@ -715,6 +715,7 @@ const buildAtlas = () => {
     };
 
     const onPointerMove = event => {
+      if (event.isPrimary === false || settingsRef.current.paused) return;
       const rect = container.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -735,6 +736,9 @@ const buildAtlas = () => {
       pointer.inside = false;
       wake();
     };
+    const onPointerEnd = event => {
+      if (event.pointerType === 'touch' && event.isPrimary !== false) onPointerLeave();
+    };
 
     const onVisibility = () => {
       last = 0;
@@ -752,6 +756,9 @@ const buildAtlas = () => {
     });
     intersection.observe(container);
     window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('pointerdown', onPointerMove, { passive: true });
+    window.addEventListener('pointerup', onPointerEnd, { passive: true });
+    window.addEventListener('pointercancel', onPointerEnd, { passive: true });
     document.documentElement.addEventListener('pointerleave', onPointerLeave);
     document.addEventListener('visibilitychange', onVisibility);
     resize();
@@ -778,6 +785,9 @@ const buildAtlas = () => {
       resizeObserver.disconnect();
       intersection.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerdown', onPointerMove);
+      window.removeEventListener('pointerup', onPointerEnd);
+      window.removeEventListener('pointercancel', onPointerEnd);
       document.documentElement.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
       for (const target of [snow, ...down, ...up]) {

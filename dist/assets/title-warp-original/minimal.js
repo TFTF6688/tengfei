@@ -5,9 +5,14 @@
   const projects=ids.map(id=>data.projects.find(p=>p.id===id)), reduced=matchMedia('(prefers-reduced-motion: reduce)');
   let active=0, desired=0, current=0, transition=null, raf=0, wheelTime=-1000, drag=null, blocked=0, contextLost=false, pointerDirty=false;
   const pointer={x:0,y:0}, smooth={x:0,y:0}, dots=[], textures=[];
-  let theme='light';try{theme=localStorage.getItem('portfolio-title-warp-theme')==='dark'?'dark':'light';}catch{}
-  function setTheme(){document.documentElement.dataset.theme=theme;$('.m-theme').setAttribute('aria-pressed',String(theme==='dark'));$('.m-theme').setAttribute('aria-label',theme==='dark'?'切换到浅色模式':'切换到深色模式');$('meta[name=theme-color]').content=theme==='light'?'#f4f3ee':'#141512';try{localStorage.setItem('portfolio-title-warp-theme',theme);}catch{}}
-  setTheme();$('.m-theme').addEventListener('click',()=>{theme=theme==='light'?'dark':'light';setTheme();});
+  const themeCycle=Number(document.documentElement.dataset.themeCycle)||0;
+  let theme=themeCycle?'dark':'light';if(!themeCycle)try{theme=localStorage.getItem('portfolio-title-warp-theme')==='dark'?'dark':'light';}catch{}
+  function setTheme(){document.documentElement.dataset.theme=theme;$('.m-theme').setAttribute('aria-pressed',String(theme==='dark'));$('.m-theme').setAttribute('aria-label',theme==='dark'?'切换到浅色模式':'切换到深色模式');$('meta[name=theme-color]').content=theme==='light'?'#f4f3ee':'#141512';if(!themeCycle)try{localStorage.setItem('portfolio-title-warp-theme',theme);}catch{}}
+  let themeTimer,themeCycleStarted=false;
+  function scheduleTheme(){clearTimeout(themeTimer);if(themeCycleStarted)themeTimer=setTimeout(()=>{theme=theme==='dark'?'light':'dark';setTheme();scheduleTheme();},themeCycle);}
+  function startThemeCycle(){themeCycleStarted=true;scheduleTheme();}
+  setTheme();$('.m-theme').addEventListener('click',()=>{theme=theme==='light'?'dark':'light';setTheme();scheduleTheme();});
+  if(themeCycle){const intro=$('#valley-intro');if(intro?.open)intro.addEventListener('close',startThemeCycle,{once:true});else startThemeCycle();}
   function setFocus(value){root.classList.toggle('focused',value);$('.m-focus').setAttribute('aria-pressed',String(value));$('.m-focus-label').textContent=value?'退出沉浸':'沉浸浏览';setTimeout(resize,1250);}
   $('.m-focus').addEventListener('click',()=>setFocus(!root.classList.contains('focused')));
   function metadata(){const p=projects[active];$('.m-current').textContent=String(active+1).padStart(2,'0');$('.m-project-title').textContent=p.title;$('.m-project-title').href=`work/${p.id}/index.html`;$('.m-project-tag').textContent=p.subtitle;$('.m-selected-link').href=`work/${p.id}/index.html`;stage.href=`work/${p.id}/index.html`;stage.setAttribute('aria-label',`查看${p.title}，可拖动切换作品`);dots.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===active)));const box=$('.m-project-text');box.classList.remove('m-fade');void box.offsetWidth;box.classList.add('m-fade');}
@@ -19,10 +24,12 @@
   $('.m-prev').addEventListener('click',()=>move(-1));$('.m-next').addEventListener('click',()=>move(1));
   root.addEventListener('wheel',e=>{if(document.querySelector('dialog[open]')||e.ctrlKey)return;const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;if(Math.abs(d)<7)return;e.preventDefault();const now=performance.now();if(now-wheelTime<950)return;wheelTime=now;move(d>0?1:-1,true);},{passive:false});
   document.addEventListener('keydown',e=>{if(document.querySelector('dialog[open]')||e.ctrlKey||e.metaKey||e.altKey||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;if(['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();move(['ArrowRight','ArrowDown'].includes(e.key)?1:-1);}if(e.key==='Escape'&&root.classList.contains('focused')){setFocus(false);e.preventDefault();}});
-  stage.addEventListener('pointerdown',e=>{if(e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false,captured:false};});
-  stage.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(dx,dy)>8){drag.moved=true;if(!drag.captured){stage.setPointerCapture(e.pointerId);drag.captured=true;}}});
-  function end(e){if(!drag||e.pointerId!==drag.id)return;const old=drag;drag=null;if(old.moved){blocked=performance.now()+400;const dx=e.clientX-old.x,dy=e.clientY-old.y;const d=Math.abs(dx)>Math.abs(dy)?-dx:-dy;if(Math.abs(d)>35)move(d>0?1:-1);}}
-  stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',()=>{drag=null;blocked=performance.now()+400;});stage.addEventListener('lostpointercapture',()=>{drag=null;});stage.addEventListener('click',e=>{if(performance.now()<blocked)e.preventDefault();});
+  stage.querySelectorAll('img').forEach(image=>image.draggable=false);
+  stage.addEventListener('dragstart',e=>e.preventDefault());
+  stage.addEventListener('pointerdown',e=>{if(e.isPrimary===false||(e.pointerType==='mouse'&&e.button!==0))return;blocked=0;drag={id:e.pointerId,type:e.pointerType,x:e.clientX,y:e.clientY,moved:false,captured:false};});
+  stage.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(dx,dy)>8){drag.moved=true;if(e.cancelable)e.preventDefault();if(!drag.captured){stage.setPointerCapture(e.pointerId);drag.captured=true;}}},{passive:false});
+  function end(e){if(!drag||e.pointerId!==drag.id)return;const old=drag;drag=null;if(old.moved){blocked=performance.now()+700;const dx=e.clientX-old.x,dy=e.clientY-old.y;if(old.type==='touch'){if(Math.abs(dx)>=Math.max(28,Math.min(48,stage.clientWidth*.15))&&Math.abs(dx)>=Math.abs(dy)*.85)move(dx<0?1:-1);}else{const d=Math.abs(dx)>Math.abs(dy)?-dx:-dy;if(Math.abs(d)>35)move(d>0?1:-1);}}}
+  stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',()=>{drag=null;blocked=performance.now()+400;});stage.addEventListener('lostpointercapture',e=>{if(e.target===stage)drag=null;});stage.addEventListener('click',e=>{if(performance.now()<blocked)e.preventDefault();});
   const follower=$('.m-pointer');
   root.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||reduced.matches)return;pointer.x=(e.clientX/innerWidth-.5)*2;pointer.y=(e.clientY/innerHeight-.5)*2;root.style.setProperty('--mouse-x',pointer.x);root.style.setProperty('--mouse-y',pointer.y);follower.style.transform=`translate(${e.clientX}px,${e.clientY}px)`;pointerDirty=true;wake();});
   stage.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')follower.classList.add('visible');});stage.addEventListener('pointerleave',()=>follower.classList.remove('visible'));root.addEventListener('pointerleave',()=>{pointer.x=pointer.y=0;pointerDirty=true;wake();});

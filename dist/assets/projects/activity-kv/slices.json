@@ -1,0 +1,36 @@
+{
+  "width": 1920,
+  "height": 12950,
+  "slices": [
+    {
+      "name": "slice-01",
+      "width": 1920,
+      "height": 2200
+    },
+    {
+      "name": "slice-02",
+      "width": 1920,
+      "height": 2200
+    },
+    {
+      "name": "slice-03",
+      "width": 1920,
+      "height": 2200
+    },
+    {
+      "name": "slice-04",
+      "width": 1920,
+      "height": 2200
+    },
+    {
+      "name": "slice-05",
+      "width": 1920,
+      "height": 2200
+    },
+    {
+      "name": "slice-06",
+      "width": 1920,
+      "height": 1950
+    }
+  ]
+}

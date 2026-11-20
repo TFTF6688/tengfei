@@ -29,5 +29,10 @@ html[data-theme=dark]{--bg:#141512;--ink:#efefe7;--muted:#a8a99e;--line:#ffffff2
 
 
 /* Current artwork framing and a reachable version selector on small screens. */
+.m-arrow-icon{display:block;width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.m-intro-link .m-icon-wrap{display:inline-flex}
+.m-brand[data-intro-replay]{position:relative}
+.m-brand-hint{position:absolute;left:0;top:calc(100% + 6px);font-size:9px;font-weight:400;line-height:1.4;letter-spacing:0;white-space:nowrap;color:var(--secondary)}
+@media(pointer:coarse){.minimal{touch-action:none}.m-stage{-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}.m-stage img{-webkit-user-drag:none}}
 .minimal .m-stage .m-fallback{object-position:50% 50%}.minimal .m-stage[href*="/maestri-s2/"] .m-fallback{object-position:62% 50%}.m-versions div{min-width:190px}
 @media(max-width:720px){.m-versions{display:block}.m-nav{gap:14px}}

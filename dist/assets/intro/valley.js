@@ -11,7 +11,7 @@
 
   const frame = document.createElement('iframe');
   frame.className = 'valley-frame';
-  frame.setAttribute('sandbox', 'allow-scripts');
+  frame.setAttribute('sandbox', 'allow-scripts allow-same-origin');
   frame.title = 'Fernhollow · 互动花谷';
   frame.src = intro.dataset.page;
   const skip = document.getElementById('valley-skip');
@@ -45,7 +45,7 @@
   }
 
   window.addEventListener('message', event => {
-    if (event.source !== frame.contentWindow || event.origin !== 'null') return;
+    if (event.source !== frame.contentWindow || event.origin !== location.origin) return;
     const data = event.data;
     if (!data || data.channel !== 'portfolio-fernhollow' || closing) return;
     if (data.action === 'ready') {

@@ -129,15 +129,16 @@ function displayPicture(index){
   pictureIndex=(index+pictures.length)%pictures.length;
   const source=pictures[pictureIndex];
   const img=$('.lightbox-stage img',lightbox);
-  img.src=source.currentSrc || source.src;
-  img.alt=source.alt || '作品细节';
+  img.src=source.dataset.preview || source.currentSrc || source.src;
+  img.alt=source.dataset.caption || source.alt || '作品细节';
   $('.lightbox-caption',lightbox).textContent=`${pictureIndex+1} / ${pictures.length}  ·  ${img.alt}`;
   lightbox.classList.remove('is-original');$('.lightbox-size',lightbox).setAttribute('aria-pressed','false');$('.lightbox-size',lightbox).textContent='原尺寸';
 }
 function openPicture(target){
   const area=target.closest('.case-reading,.figma-canvas') || document;
-  pictures=$$('img[data-zoom]',area).filter(img=>img.getClientRects().length);
-  pictureIndex=pictures.indexOf(target);
+  const visible=$$('img[data-zoom]',area).filter(img=>img.getClientRects().length);
+  pictures=visible.filter((img,index)=>!img.dataset.original||visible.findIndex(other=>other.dataset.original===img.dataset.original)===index);
+  pictureIndex=pictures.findIndex(img=>img===target||(target.dataset.original&&img.dataset.original===target.dataset.original));
   if(pictureIndex<0)return;
   previousFocus=target;displayPicture(pictureIndex);lightbox.showModal();document.documentElement.style.overflow='hidden';
 }
@@ -157,6 +158,6 @@ lightbox?.addEventListener('cancel',e=>{e.preventDefault();closeLightbox();});
 $('.lightbox-prev',lightbox)?.addEventListener('click',()=>displayPicture(pictureIndex-1));
 $('.lightbox-next',lightbox)?.addEventListener('click',()=>displayPicture(pictureIndex+1));
 $('.lightbox-stage',lightbox)?.addEventListener('click',e=>{if(e.target.classList.contains('lightbox-stage'))closeLightbox();});
-$('.lightbox-size',lightbox)?.addEventListener('click',()=>{const original=lightbox.classList.toggle('is-original');$('.lightbox-size',lightbox).setAttribute('aria-pressed',String(original));$('.lightbox-size',lightbox).textContent=original?'适合屏幕':'原尺寸';});
+$('.lightbox-size',lightbox)?.addEventListener('click',()=>{const original=lightbox.classList.toggle('is-original');const source=pictures[pictureIndex];if(source?.dataset.original)$('.lightbox-stage img',lightbox).src=original?source.dataset.original:source.dataset.preview;$('.lightbox-size',lightbox).setAttribute('aria-pressed',String(original));$('.lightbox-size',lightbox).textContent=original?'适合屏幕':'原尺寸';});
 
 $$('.back-top').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}));
