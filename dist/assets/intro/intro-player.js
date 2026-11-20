@@ -7,6 +7,7 @@
   const ui = document.getElementById('ui');
   const sound = document.getElementById('sound');
   const go = document.getElementById('go');
+  const action = document.querySelector('.intro-action');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let scene;
   let loaded = false;
@@ -23,10 +24,18 @@
     ui.classList.add('on');
   }
 
+  function finishLoading() {
+    action.dataset.ready = 'true';
+    action.setAttribute('aria-busy', 'false');
+    action.querySelector('.action-loading').setAttribute('aria-hidden', 'true');
+    go.disabled = false;
+  }
+
   function showStill() {
     mount.classList.add('scene-unavailable');
     loader.classList.add('gone');
     revealInterface();
+    finishLoading();
   }
 
   const loadTimeout = setTimeout(() => {
@@ -57,11 +66,15 @@
     const audioStore = window.__GE.Y();
 
     scene = new Valley(mount, () => {
+      if (loaded) return;
       loaded = true;
       clearTimeout(loadTimeout);
       loader.classList.add('gone');
-      mount.classList.remove('scene-loading');
       revealInterface();
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        mount.classList.remove('scene-loading');
+        finishLoading();
+      }));
     }, revealInterface);
 
     sound.addEventListener('click', async () => {
