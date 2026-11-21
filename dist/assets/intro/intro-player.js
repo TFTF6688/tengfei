@@ -16,6 +16,8 @@
   let pointerOverArrow = false;
   let arrowFocused = false;
   let hovering = false;
+  let arrowTouch = null;
+  let suppressArrowClick = false;
 
   function revealInterface() {
     if (introShown) return;
@@ -115,7 +117,7 @@
   }
 
   function updateHover() {
-    const shouldHover = !reducedMotion.matches && (pointerOverArrow || arrowFocused);
+    const shouldHover = !reducedMotion.matches && (pointerOverArrow || arrowFocused || arrowTouch);
     if (hovering !== shouldHover) {
       hovering = shouldHover;
       if (hovering) scene.startHoverTransition();
@@ -165,6 +167,26 @@
   }
   window.addEventListener('pointerup',finishTouch);
   window.addEventListener('pointercancel',finishTouch);
+  go.addEventListener('pointerdown', event => {
+    if (event.pointerType !== 'touch' || !event.isPrimary || go.disabled) return;
+    arrowTouch={id:event.pointerId,start:performance.now(),x:event.clientX,y:event.clientY,moved:false};
+    suppressArrowClick=false;
+    go.setPointerCapture(event.pointerId);
+    updateHover();
+  });
+  go.addEventListener('pointermove',event=>{
+    if(arrowTouch?.id===event.pointerId&&Math.hypot(event.clientX-arrowTouch.x,event.clientY-arrowTouch.y)>12)arrowTouch.moved=true;
+  });
+  function releaseArrow(event){
+    if(!arrowTouch||arrowTouch.id!==event.pointerId)return;
+    suppressArrowClick=event.type==='pointercancel'||arrowTouch.moved||performance.now()-arrowTouch.start>=350;
+    arrowTouch=null;
+    updateHover();
+  }
+  go.addEventListener('pointerup',releaseArrow);
+  go.addEventListener('pointercancel',releaseArrow);
+  go.addEventListener('contextmenu',event=>event.preventDefault());
+  go.addEventListener('lostpointercapture',releaseArrow);
   reducedMotion.addEventListener('change', () => {
     if (!reducedMotion.matches) scene.valleyScene.toggleAutoScroll(true);
     updateHover();
@@ -187,7 +209,8 @@
     arrowFocused = false;
     updateHover();
   });
-  go.addEventListener('click', () => {
+  go.addEventListener('click', event => {
+    if(suppressArrowClick){suppressArrowClick=false;event.preventDefault();return;}
     if (reducedMotion.matches) return;
     pointerOverArrow = false;
     arrowFocused = false;

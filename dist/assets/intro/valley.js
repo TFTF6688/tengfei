@@ -17,6 +17,7 @@
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
     const direct = new Set(['works','about','contact']);
     let closing = false;
+    let entering = false;
     let timer;
 
     function cleanup() {
@@ -26,6 +27,8 @@
     }
 
     function closeNow() {
+      const wasOpen = intro.open;
+      if (wasOpen && entering) document.dispatchEvent(new CustomEvent('portfolio:intro-enter'));
       if (intro.open) intro.close();
       cleanup();
     }
@@ -33,7 +36,8 @@
     function leave(enter) {
       if (closing || !intro.open) return;
       closing = true;
-      if (reduce.matches) {
+      entering = enter;
+      if (enter || reduce.matches) {
         closeNow();
         return;
       }

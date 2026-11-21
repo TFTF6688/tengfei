@@ -38,6 +38,17 @@
   let projectTimer;
   function scheduleProject(){clearTimeout(projectTimer);if(document.hidden||document.querySelector('dialog[open]'))return;projectTimer=setTimeout(()=>{if(drag||focusMotion||transition){scheduleProject();return;}select(desired+1);},5000);}
   const projectObserver=new MutationObserver(scheduleProject);document.querySelectorAll('dialog').forEach(dialog=>projectObserver.observe(dialog,{attributes:true,attributeFilter:['open']}));
+  let entranceMotion=null;
+  document.addEventListener('portfolio:intro-enter',()=>{
+    entranceMotion?.cancel();
+    stage.style.animation='none';
+    stage.style.clipPath=reduced.matches?'':'inset(0 49.8% 0 49.8%)';
+    if(!reduced.matches){
+      entranceMotion=stage.animate([{clipPath:'inset(0 49.8% 0 49.8%)'},{clipPath:'inset(0 0 0 0)'}],{duration:1600,easing:'cubic-bezier(.4,0,.2,1)',fill:'both'});
+      const motion=entranceMotion;motion.onfinish=()=>{if(entranceMotion===motion){stage.style.clipPath='';motion.cancel();entranceMotion=null;}};
+    }
+    scheduleProject();
+  });
   function select(i){i=mod(i);scheduleProject();if(i===desired)return;desired=i;active=i;metadata();begin();}
   function move(direction,cinema=false){if(cinema&&!reduced.matches){if(focusMotion)return;if(!root.classList.contains('focused')){setFocus(true);return;}}select(desired+direction);}
   function begin(){if(transition)return;if(current===desired)return;const direction=mod(desired-current)>projects.length/2?-1:1;transition={from:current,to:desired,start:performance.now(),duration:reduced.matches?0:1150,direction};fallback.src=projects[desired].coverThumb.replace(/^\//,'');fallback.alt=projects[desired].title;if(!gl||contextLost)fallback.animate?.([{opacity:.3,transform:'scale(1.07)'},{opacity:1,transform:'scale(1.015)'}],{duration:reduced.matches?0:650,easing:'ease-out'});wake();}

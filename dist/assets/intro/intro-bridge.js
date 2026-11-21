@@ -13,6 +13,7 @@
   ui.classList.add('on');
   document.getElementById('loader').classList.add('gone');
   document.addEventListener('click', event => {
+    if(event.defaultPrevented)return;
     const action = event.target.closest('[data-portfolio-action]')?.dataset.portfolioAction;
     if (action) send(action);
   });
@@ -20,4 +21,4 @@
     if (event.key === 'Escape') send('skip');
   });
 })();
-  
+

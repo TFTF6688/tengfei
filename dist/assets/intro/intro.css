@@ -366,6 +366,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 .scene-loading .js-canvas-container{opacity:0}
 .intro-action{position:relative;display:flex;flex-direction:column;align-items:center;min-inline-size:88px;margin-top:calc(34 * var(--u))}
 .intro-action .go{margin-top:0}
+.intro-action .go{touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
 .intro-action .go,.intro-action .action-caption{opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .35s ease,transform .35s ease,visibility 0s linear .35s}
 .intro-action[data-ready] .go,.intro-action[data-ready] .action-caption{opacity:1;visibility:visible;transform:none;transition-delay:0s}
 .action-loading{position:absolute;inset:0;display:grid;place-items:center;white-space:nowrap;font-size:max(11px,calc(12 * var(--u)));font-weight:400;letter-spacing:.11em;line-height:1.4;color:inherit;pointer-events:none;opacity:1;visibility:visible;transition:opacity .3s ease,visibility 0s linear .3s}
